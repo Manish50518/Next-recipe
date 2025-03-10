@@ -2,7 +2,7 @@ import { fetchRecipes } from "@/services/recipesServices";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { FaRegClock } from "react-icons/fa6";
-import DetailedRecipes from "./DetailedRecipes";
+// import DetailedRecipes from "./DetailedRecipes";
 import { useRecipeStore } from "@/store/useRecipeStore";
 import { useRouter } from "next/router";
 import { CiStar } from "react-icons/ci";
@@ -26,12 +26,14 @@ function Dish() {
   }
 
   const [eats, setEats] = useState<EatsItem[]>([]);
-  const [loading, setLoading] = useState(false);
 
+  const [loading, setLoading] = useState(false);
+  const { setSelectedRecipe } = useRecipeStore();
   const router = useRouter();
 
   function handleRecipeClick(recipe: EatsItem) {
     if (!recipe) return;
+    setSelectedRecipe(recipe);
     router.push("/recipedetails");
   }
 
