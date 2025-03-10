@@ -26,14 +26,12 @@ function Dish() {
   }
 
   const [eats, setEats] = useState<EatsItem[]>([]);
-  const [model, setModel] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { selectedRecipe, setSelectedRecipe } = useRecipeStore();
+
   const router = useRouter();
 
   function handleRecipeClick(recipe: EatsItem) {
     if (!recipe) return;
-    setSelectedRecipe(recipe);
     router.push("/recipedetails");
   }
 
@@ -93,13 +91,6 @@ function Dish() {
           </div>
         ))}
       </div>
-
-      {model && selectedRecipe && (
-        <DetailedRecipes
-          selectedRecipe={selectedRecipe}
-          handleModel={setModel}
-        />
-      )}
     </>
   );
 }
