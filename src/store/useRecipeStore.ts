@@ -1,4 +1,3 @@
-import { ExportAppResult } from "next/dist/export/types";
 import { create } from "zustand";
 
 interface EatsItem {
