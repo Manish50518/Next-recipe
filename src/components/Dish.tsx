@@ -1,33 +1,27 @@
-import { fetchRecipes } from "@/services/recipesServices";
 import Image from "next/image";
-import { useEffect, useState } from "react";
 import { FaRegClock } from "react-icons/fa6";
-// import DetailedRecipes from "./DetailedRecipes";
+import { CiStar } from "react-icons/ci";
 import { useRecipeStore } from "@/store/useRecipeStore";
 import { useRouter } from "next/router";
-import { CiStar } from "react-icons/ci";
 
-function Dish() {
-  interface EatsItem {
-    id: number;
-    name: string;
-    image: string;
-    ingredients: string[];
-    instructions: string[];
-    prepTimeMinutes: number;
-    cookTimeMinutes: number;
-    servings: number;
-    difficulty: string;
-    cuisine: string;
-    caloriesPerServing: number;
-    mealType: string[];
-    rating: number;
-    reviewCount: number;
-  }
+interface EatsItem {
+  id: number;
+  name: string;
+  image: string;
+  ingredients: string[];
+  instructions: string[];
+  prepTimeMinutes: number;
+  cookTimeMinutes: number;
+  servings: number;
+  difficulty: string;
+  cuisine: string;
+  caloriesPerServing: number;
+  mealType: string[];
+  rating: number;
+  reviewCount: number;
+}
 
-  const [eats, setEats] = useState<EatsItem[]>([]);
-
-  const [loading, setLoading] = useState(false);
+function Dish({ recipes }: { recipes: EatsItem[] }) {
   const { setSelectedRecipe } = useRecipeStore();
   const router = useRouter();
 
@@ -37,29 +31,14 @@ function Dish() {
     router.push("/recipedetails");
   }
 
-  useEffect(() => {
-    async function fetchData() {
-      setLoading(true);
-      try {
-        const data = await fetchRecipes();
-        setEats(data);
-      } catch (error) {
-        console.error("Error fetching recipes:", error);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchData();
-  }, []);
-
   return (
     <>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4">
-        {loading && (
-          <p className="text-center text-lg font-semibold">Loading...</p>
+        {recipes.length === 0 && (
+          <p className="text-center text-lg font-semibold">No recipes found</p>
         )}
-        {eats.map((item) => (
-          <div key={item.id} className="w-full sm:w-[250px]  p-2">
+        {recipes.map((item) => (
+          <div key={item.id} className="w-full sm:w-[250px] p-2">
             <Image
               src={item.image}
               alt={item.name}
